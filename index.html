@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MonitorWidget – Documentos Legales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue:        #1A56DB;
+      --blue-light:  #EEF3FF;
+      --blue-mid:    #BFCFFF;
+      --ink:         #0F172A;
+      --ink-2:       #334155;
+      --ink-3:       #64748B;
+      --surface:     #FFFFFF;
+      --bg:          #F8FAFF;
+      --border:      #E2E8F0;
+      --accent:      #F59E0B;
+      --radius:      14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--blue);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon svg { width: 20px; height: 20px; fill: white; }
+    .logo-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    nav { display: flex; gap: 4px; }
+    nav a {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    nav a:hover { background: var(--blue-light); color: var(--blue); }
+    nav a.active { background: var(--blue-light); color: var(--blue); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #1A56DB 0%, #0E3A9E 100%);
+      color: white;
+      padding: 72px 24px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-badge span { width: 6px; height: 6px; background: #6EE7B7; border-radius: 50%; }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.8;
+      max-width: 520px;
+      margin: 0 auto 32px;
+      font-weight: 300;
+    }
+    .hero-cards {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .hero-card:hover { background: rgba(255,255,255,0.18); transform: translateY(-1px); }
+    .hero-card svg { width: 16px; height: 16px; opacity: 0.8; }
+
+    /* ── TABS ── */
+    .tabs-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+    }
+    .tabs-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      gap: 0;
+    }
+    .tab-btn {
+      padding: 14px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink-3);
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: none;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--blue); }
+    .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.25s ease; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    /* ── META BAR ── */
+    .meta-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--ink-3);
+    }
+    .meta-item svg { width: 15px; height: 15px; color: var(--blue); flex-shrink: 0; }
+    .meta-item strong { color: var(--ink-2); font-weight: 500; }
+    .meta-sep { width: 1px; height: 20px; background: var(--border); }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 48px;
+      animation: fadeIn 0.3s ease both;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      width: 32px;
+      height: 32px;
+      background: var(--blue-light);
+      color: var(--blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .section p {
+      color: var(--ink-2);
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+    }
+
+    .section h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 24px 0 10px;
+    }
+
+    /* ── LISTS ── */
+    .doc-list {
+      list-style: none;
+      margin: 10px 0 16px;
+    }
+    .doc-list li {
+      display: flex;
+      gap: 10px;
+      padding: 7px 0;
+      font-size: 0.92rem;
+      color: var(--ink-2);
+      border-bottom: 1px dashed var(--border);
+    }
+    .doc-list li:last-child { border-bottom: none; }
+    .doc-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--blue);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    /* negative list (red dot) */
+    .doc-list.no li::before { background: #EF4444; }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      color: var(--ink-2);
+      font-style: italic;
+    }
+    .callout.success {
+      background: #ECFDF5;
+      border-color: #10B981;
+    }
+    .callout.warning {
+      background: #FFFBEB;
+      border-color: var(--accent);
+    }
+
+    /* ── PERMISSION CARDS ── */
+    .perm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .perm-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .perm-card-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--blue-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .perm-card-icon svg { width: 20px; height: 20px; color: var(--blue); }
+    .perm-card-title { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 4px; }
+    .perm-card-desc { font-size: 0.82rem; color: var(--ink-3); line-height: 1.5; }
+
+    /* ── ZERO COLLECT BANNER ── */
+    .zero-banner {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
+      border-radius: var(--radius);
+      padding: 28px 28px;
+      margin: 0 0 40px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .zero-banner-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .zero-banner-icon svg { width: 28px; height: 28px; }
+    .zero-banner h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 4px; }
+    .zero-banner p { font-size: 0.85rem; opacity: 0.75; line-height: 1.5; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    footer p { font-size: 0.82rem; color: var(--ink-3); margin-bottom: 4px; }
+    footer a { color: var(--blue); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .header-inner { padding: 0 16px; }
+      nav a { padding: 6px 10px; font-size: 0.8rem; }
+      main { padding: 32px 16px 60px; }
+      .hero { padding: 48px 16px 40px; }
+      .meta-sep { display: none; }
+      .zero-banner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+      </div>
+      <span class="logo-name">MonitorWidget</span>
+    </a>
+    <nav>
+      <a href="#" class="active" onclick="showTab('tc', this); return false;">Términos</a>
+      <a href="#" onclick="showTab('pp', this); return false;">Privacidad</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge"><span></span> Documentos Legales</div>
+  <h1>Transparencia<br><em>ante todo</em></h1>
+  <p>Consulta los documentos legales de MonitorWidget. Escritos en lenguaje claro, sin letra pequeña.</p>
+  <div class="hero-cards">
+    <a class="hero-card" href="#" onclick="showTab('tc', null); return false;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+      Términos y Condiciones
+    </a>
+    <a class="hero-card" href="#" onclick="showTab('pp', null); return false;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+      Política de Privacidad
+    </a>
+    <!-- NUEVO BOTÓN DE CONTACTO -->
+    <a class="hero-card" href="jesusparrauen5@gmail.com?subject=Soporte%20MonitorWidget">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      Contacto / Soporte
+    </a>
+  </div>
+</div>
+
+<!-- TABS BAR -->
+<div class="tabs-bar">
+  <div class="tabs-inner">
+    <button class="tab-btn active" id="tab-tc" onclick="showTab('tc', this)">📄 Términos y Condiciones</button>
+    <button class="tab-btn" id="tab-pp" onclick="showTab('pp', this)">🔒 Política de Privacidad</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ══════════════════════════════════════════════
+       TÉRMINOS Y CONDICIONES
+  ══════════════════════════════════════════════ -->
+  <div class="tab-panel active" id="panel-tc">
+
+    <div class="meta-bar">
+      <div class="meta-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+        <span>Actualización: <strong>Mayo 2026</strong></span>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        <span>Versión: <strong>1.0</strong></span>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+        <span>Plataforma: <strong>Android – Google Play Store</strong></span>
+      </div>
+    </div>
+
+    <div class="callout">
+      Al instalar o usar MonitorWidget, usted acepta de forma expresa estos Términos. Si no está de acuerdo con alguna condición, le pedimos que no instale la aplicación.
+    </div>
+
+    <!-- 1 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2 class="section-title">Descripción del Servicio</h2>
+      </div>
+      <p>MonitorWidget es una aplicación móvil gratuita para Android que permite el monitoreo automatizado de las tasas de cambio del Dólar estadounidense (USD) y el Euro (EUR) frente a la moneda de curso legal en Venezuela, tomando como referencia principal los datos publicados por el Banco Central de Venezuela (BCV) y otras fuentes de información pública.</p>
+      <p>La aplicación pone a disposición del usuario las siguientes funcionalidades:</p>
+      <ul class="doc-list">
+        <li>Un <strong>widget personalizable</strong> en la pantalla de inicio que muestra las tasas de cambio actualizadas.</li>
+        <li><strong>Notificaciones automáticas</strong> cuando se detecta un cambio en la tasa de cambio monitorizada.</li>
+        <li><strong>Acceso sin conexión</strong> a los últimos valores registrados gracias al almacenamiento local.</li>
+        <li><strong>Modo claro y oscuro</strong> seleccionable según las preferencias del usuario.</li>
+      </ul>
+    </div>
+
+    <!-- 2 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2 class="section-title">Acceso Gratuito y Sin Registro</h2>
+      </div>
+      <p>MonitorWidget es completamente gratuita. No existen planes de suscripción, compras dentro de la aplicación (<em>in-app purchases</em>) ni contenido de pago.</p>
+      <p>No se requiere crear una cuenta de usuario, proporcionar correo electrónico, número de teléfono ni ningún otro dato personal para acceder a la totalidad de las funciones. MonitorWidget garantiza un uso completamente anónimo.</p>
+    </div>
+
+    <!-- 3 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2 class="section-title">Naturaleza Informativa y Limitación de Responsabilidad Financiera</h2>
+      </div>
+
+      <h3>3.1 Carácter exclusivamente informativo</h3>
+      <p>Toda la información que MonitorWidget muestra —incluyendo tasas de cambio, precios de divisas y cualquier otro indicador financiero— tiene un carácter <strong>estrictamente informativo y referencial</strong>. Esta información no constituye, bajo ninguna circunstancia, asesoramiento financiero, recomendación de compra o venta de divisas, ni orientación económica de carácter profesional.</p>
+      <div class="callout warning">MonitorWidget no es una entidad financiera y no define ni interviene en la fijación de ninguna tasa de cambio.</div>
+
+      <h3>3.2 Posibles desfases o inexactitudes</h3>
+      <p>Aunque la aplicación actualiza los datos de forma periódica, el usuario reconoce que:</p>
+      <ul class="doc-list">
+        <li>Pueden existir retrasos entre la publicación oficial del BCV y el momento en que la app refleja dicho cambio.</li>
+        <li>Las actualizaciones pueden interrumpirse por falta de conexión a Internet, restricciones del sistema Android o caídas en los servidores de las fuentes de datos.</li>
+        <li>La información mostrada puede no ser en todo momento la más reciente disponible en los canales oficiales.</li>
+      </ul>
+
+      <h3>3.3 Exención de responsabilidad por decisiones del usuario</h3>
+      <p>El desarrollador no se hace responsable de pérdidas económicas, transacciones comerciales ni cualquier otra decisión tomada con base en los datos mostrados en la app. Es responsabilidad exclusiva del usuario verificar la información en los canales oficiales antes de realizar cualquier operación.</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2 class="section-title">Actualizaciones Automáticas y Funcionamiento en Segundo Plano</h2>
+      </div>
+      <p>La aplicación ejecuta procesos automáticos en segundo plano que consultan las fuentes de datos de forma periódica (aproximadamente cada hora). Estos procesos son gestionados íntegramente por el sistema operativo Android y consumen recursos mínimos del dispositivo.</p>
+      <ul class="doc-list">
+        <li>La frecuencia de actualización puede variar según las políticas de gestión de energía de su dispositivo.</li>
+        <li>En dispositivos con restricciones de batería agresivas, las actualizaciones pueden producirse con menor frecuencia.</li>
+        <li>Para un funcionamiento óptimo, se recomienda no incluir MonitorWidget en la lista de apps restringidas por batería.</li>
+      </ul>
+    </div>
+
+
+
+    <!-- 6 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2 class="section-title">Propiedad Intelectual</h2>
+      </div>
+      <p>El diseño visual, la interfaz, los logotipos, el nombre "MonitorWidget" y todo el contenido creativo de la aplicación son propiedad exclusiva del desarrollador y están protegidos por las leyes aplicables en materia de propiedad intelectual.</p>
+      <p>La instalación de la aplicación otorga una licencia de uso personal, no exclusiva, intransferible, revocable y gratuita, únicamente para ejecutar la app en dispositivos Android de uso personal. Queda expresamente prohibido:</p>
+      <ul class="doc-list">
+        <li>Copiar, reproducir, distribuir o comercializar la aplicación sin autorización escrita del desarrollador.</li>
+        <li>Realizar ingeniería inversa o intentar extraer el código fuente con fines comerciales o maliciosos.</li>
+        <li>Utilizar el nombre o identidad visual de MonitorWidget sin autorización expresa.</li>
+      </ul>
+    </div>
+
+    <!-- 7 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2 class="section-title">Modificaciones a la Aplicación y a estos Términos</h2>
+      </div>
+      <p>El desarrollador se reserva el derecho de actualizar, modificar, suspender o discontinuar cualquier función de la aplicación en cualquier momento y sin previo aviso. Estos Términos también podrán ser actualizados para reflejar cambios técnicos, legales o de política de la Google Play Store.</p>
+      <p>Cualquier modificación será publicada en esta página con su respectiva fecha de actualización. El uso continuado de la aplicación tras la publicación de los cambios constituye la aceptación de los mismos.</p>
+    </div>
+
+    <!-- 8 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <h2 class="section-title">Interrupción o Cese del Servicio</h2>
+      </div>
+      <p>El desarrollador no garantiza la disponibilidad ininterrumpida de la aplicación ni de las fuentes de datos externas a las que accede. El servicio puede interrumpirse temporal o definitivamente por razones técnicas, legales o comerciales, sin que el desarrollador sea responsable por los inconvenientes derivados.</p>
+    </div>
+
+    <!-- 9 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <h2 class="section-title">Ley Aplicable y Resolución de Conflictos</h2>
+      </div>
+      <p>Estos Términos se rigen por las políticas del Programa para Desarrolladores de Google Play y las leyes aplicables en materia de distribución de software para plataformas de consumo global. En caso de cualquier disputa, el desarrollador y el usuario se comprometen a buscar una resolución de buena fe.</p>
+    </div>
+
+    <!-- 10 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <h2 class="section-title">Contacto y Soporte</h2>
+      </div>
+      <p>Para cualquier duda, comentario o reporte técnico relacionado con MonitorWidget, puede ponerse en contacto a través de los canales de soporte indicados en la ficha oficial de la aplicación en Google Play Store.</p>
+      <div class="callout success">Nos comprometemos a atender todas las consultas en el menor tiempo posible y a seguir mejorando la aplicación con base en los comentarios de nuestra comunidad.</div>
+    </div>
+
+  </div><!-- /panel-tc -->
+
+
+  <!-- ══════════════════════════════════════════════
+       POLÍTICA DE PRIVACIDAD
+  ══════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-pp">
+
+    <div class="meta-bar">
+      <div class="meta-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+        <span>Actualización: <strong>Mayo 2026</strong></span>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        <span>Datos personales recopilados: <strong>Ninguno</strong></span>
+      </div>
+    </div>
+
+    <!-- Zero banner -->
+    <div class="zero-banner">
+      <div class="zero-banner-icon">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+      </div>
+      <div>
+        <h3>Política de Recopilación Cero</h3>
+        <p>MonitorWidget opera bajo un principio de recopilación cero de datos personales. No recopilamos, no almacenamos en servidores propios y no compartimos ningún dato de identificación personal de nuestros usuarios.</p>
+      </div>
+    </div>
+
+    <!-- 1 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2 class="section-title">Identidad del Responsable</h2>
+      </div>
+      <p>MonitorWidget es una aplicación móvil independiente desarrollada de forma individual. El responsable del tratamiento de datos —que en este caso se limita exclusivamente al almacenamiento local en el dispositivo del usuario— es el desarrollador de la aplicación, cuyos datos de contacto están disponibles en la ficha oficial de la Google Play Store.</p>
+    </div>
+
+    <!-- 2 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2 class="section-title">Principio de Privacidad por Diseño</h2>
+      </div>
+      <p>Desde su concepción, MonitorWidget ha sido diseñada siguiendo el principio de <strong>privacidad por diseño</strong> (<em>Privacy by Design</em>). La protección de la privacidad no es una característica adicional, sino que está integrada en la arquitectura fundamental de la aplicación.</p>
+      <ul class="doc-list">
+        <li>No existe ningún servidor propio de MonitorWidget que recopile datos de los usuarios.</li>
+        <li>No es necesario registrarse ni proporcionar ningún dato personal para usar la aplicación.</li>
+        <li>La aplicación funciona de forma completamente anónima.</li>
+        <li>Todos los datos necesarios se almacenan únicamente en el dispositivo del propio usuario.</li>
+      </ul>
+    </div>
+
+    <!-- 3 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2 class="section-title">Datos que NO se Recopilan</h2>
+      </div>
+      <p>MonitorWidget <strong>NO</strong> recopila, <strong>NO</strong> solicita, <strong>NO</strong> almacena en servidores externos, <strong>NO</strong> procesa con fines comerciales y <strong>NO</strong> comparte con terceros ninguno de los siguientes datos:</p>
+      <ul class="doc-list no">
+        <li>Nombre, apellidos ni ningún dato de identificación personal.</li>
+        <li>Dirección de correo electrónico.</li>
+        <li>Número de teléfono.</li>
+        <li>Información de cuentas de redes sociales.</li>
+        <li>Ubicación geográfica (GPS o red) del dispositivo.</li>
+        <li>Dirección IP o identificadores únicos del dispositivo.</li>
+        <li>Información sobre otras aplicaciones instaladas.</li>
+        <li>Información financiera, bancaria o datos de pago del usuario.</li>
+      </ul>
+    </div>
+
+    <!-- 4 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2 class="section-title">Datos Almacenados Localmente en el Dispositivo</h2>
+      </div>
+      <p>Para ofrecer una experiencia óptima y permitir el funcionamiento sin conexión, MonitorWidget utiliza el almacenamiento local del dispositivo. Este almacenamiento es gestionado íntegramente por Android y permanece bajo el control exclusivo del usuario.</p>
+      <p>La información almacenada localmente se limita a:</p>
+      <ul class="doc-list">
+        <li>Los últimos valores numéricos de las tasas de cambio (Dólar BCV y Euro).</li>
+        <li>Las preferencias de personalización seleccionadas por el usuario (modo claro/oscuro).</li>
+      </ul>
+      <h3>Características de este almacenamiento</h3>
+      <ul class="doc-list">
+        <li>Permanece exclusivamente en el espacio reservado para la app en el dispositivo del usuario.</li>
+        <li>No se transmite a ningún servidor externo.</li>
+        <li>No se realizan copias de seguridad en la nube por parte del desarrollador.</li>
+        <li>Se elimina de forma completa si el usuario desinstala la app o borra sus datos desde Android.</li>
+      </ul>
+    </div>
+
+    <!-- 5 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2 class="section-title">Consultas Técnicas a Fuentes Externas</h2>
+      </div>
+      <p>Para obtener las tasas de cambio actualizadas, la app realiza consultas automáticas a fuentes de datos de acceso público. Es importante destacar que:</p>
+      <ul class="doc-list">
+        <li>Estas consultas son de naturaleza puramente técnica y tienen como único objetivo obtener los valores de las tasas de cambio.</li>
+        <li>No se envía ningún identificador personal ni información del usuario a dichos servidores.</li>
+        <li>Las fuentes externas consultadas son de carácter público e informativo.</li>
+        <li>MonitorWidget no tiene relación comercial con estas fuentes para fines de marketing o seguimiento.</li>
+      </ul>
+    </div>
+
+    <!-- 6 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2 class="section-title">Publicidad y Herramientas de Análisis</h2>
+      </div>
+      <h3>6.1 Sin publicidad</h3>
+      <p>MonitorWidget <strong>no incluye ningún tipo de red publicitaria de terceros</strong>. La aplicación no muestra anuncios, no existe ningún rastreador publicitario y el usuario nunca será objeto de publicidad segmentada a través de nuestra app.</p>
+    </div>
+
+    <!-- 7 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <h2 class="section-title">Seguridad de la Información</h2>
+      </div>
+      <p>Aunque MonitorWidget no recopila datos personales, el desarrollador implementa las siguientes medidas de seguridad:</p>
+      <ul class="doc-list">
+        <li>Uso exclusivo de conexiones cifradas (HTTPS) para todas las consultas técnicas a fuentes externas.</li>
+        <li>Almacenamiento local utilizando las herramientas seguras del sistema operativo Android.</li>
+        <li>No se almacenan contraseñas, tokens de sesión ni credenciales de ningún tipo, dado que la app no requiere autenticación.</li>
+      </ul>
+    </div>
+
+
+    <!-- 8 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <h2 class="section-title">Derechos del Usuario</h2>
+      </div>
+      <p>Dado que MonitorWidget no almacena datos en servidores externos, los derechos de acceso, rectificación y supresión se ejercen directamente desde el dispositivo Android:</p>
+      <ul class="doc-list">
+        <li>Para eliminar todos los datos almacenados: <strong>Ajustes → Aplicaciones → MonitorWidget → Almacenamiento → Borrar datos.</strong></li>
+        <li>La desinstalación de la app elimina de forma completa e irrecuperable toda la información almacenada localmente.</li>
+      </ul>
+    </div>
+
+    <!-- 10 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <h2 class="section-title">Cambios a esta Política</h2>
+      </div>
+      <p>El desarrollador podrá actualizar esta Política de Privacidad para reflejar mejoras técnicas, cambios en las funcionalidades o modificaciones en los requisitos de la Google Play Store. Cualquier cambio relevante será publicado en esta página con su respectiva fecha. El uso continuado de la aplicación constituye la aceptación de los cambios.</p>
+    </div>
+
+    <!-- 11 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <h2 class="section-title">Contacto</h2>
+      </div>
+      <p>Para cualquier pregunta o inquietud sobre esta Política de Privacidad, puede contactar al desarrollador a través del correo de soporte indicado en la ficha oficial de la aplicación en Google Play Store.</p>
+      <div class="callout success">Nos comprometemos a responder todas las consultas relacionadas con la privacidad en un plazo razonable.</div>
+    </div>
+
+  </div><!-- /panel-pp -->
+
+</main>
+
+<footer>
+  <p><strong>MonitorWidget</strong> – Aplicación de monitoreo de tasas de cambio para Android</p>
+  <p>© 2026 MonitorWidget. Distribuida en <a href="https://play.google.com" target="_blank">Google Play Store</a>.</p>
+</footer>
+
+<script>
+  function showTab(id, btn) {
+    // panels
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    // tab buttons
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    // header nav links
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    if (btn && btn.tagName === 'A') btn.classList.add('active');
+    // scroll to tabs bar
+    document.querySelector('.tabs-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
+</body>
+</html>
